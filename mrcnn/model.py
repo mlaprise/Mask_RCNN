@@ -2059,10 +2059,11 @@ class MaskRCNN():
 
         # Add multi-GPU support.
         if config.GPU_COUNT > 1:
-            #from mrcnn.parallel_model import ParallelModel
-            from mrcnn.mutligpu_model import MultiGpuModel
-            model = MultiGpuModel(model, config.GPU_COUNT)
-
+            model = keras.utils.multi_gpu_model(model,
+                                                gpus=config.GPU_COUNT,
+                                                cpu_merge=True,
+                                                cpu_relocation=False)
+                                                
         return model
 
     def find_last(self):
