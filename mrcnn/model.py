@@ -2059,8 +2059,9 @@ class MaskRCNN():
 
         # Add multi-GPU support.
         if config.GPU_COUNT > 1:
-            from mrcnn.parallel_model import ParallelModel
-            model = ParallelModel(model, config.GPU_COUNT)
+            #from mrcnn.parallel_model import ParallelModel
+            from mutligpu_model impor MultiGpuModel
+            model = MultiGpuModel(model, config.GPU_COUNT)
 
         return model
 
@@ -2370,8 +2371,8 @@ class MaskRCNN():
             callbacks=callbacks,
             validation_data=val_generator,
             validation_steps=self.config.VALIDATION_STEPS,
-            max_queue_size=100,
-            workers=workers,
+            max_queue_size=16,
+            workers=8,
             use_multiprocessing=True,
         )
         self.epoch = max(self.epoch, epochs)
